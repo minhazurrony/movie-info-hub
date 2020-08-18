@@ -2,6 +2,7 @@ import { Layout } from 'antd';
 import React from 'react';
 import './App.css';
 import { TrendingMovies } from './components/TrendingMovies';
+import { TrendingTV } from './components/TrendingTv';
 
 const { Header, Footer, Content } = Layout;
 
@@ -20,6 +21,7 @@ const App = () => {
           }}
         >
           <TrendingMovies />
+          <TrendingTV />
         </Content>
         <Footer>Footer</Footer>
       </Layout>

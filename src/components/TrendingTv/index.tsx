@@ -3,30 +3,32 @@ import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Loader } from '../Loader';
 import { MovieCard } from '../MovieCard';
-import './trendingMovies.css';
+import './trendingTv.css';
 
-export const TrendingMovies = () => {
-  const [trendingMovies, setTrendingMovies] = useState<any[]>([]);
+export const TrendingTV = () => {
+  const [trendingTV, setTrendingTV] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [moviesPerPage] = useState(6);
 
   useEffect(() => {
-    const fetchTrendingMovies = async () => {
-      const trendingAPI = `https://api.themoviedb.org/3/trending/movie/week?api_key=dbfb4b6d3ceaae796d00053aa80dc1d9`;
+    const fetchTrendingTV = async () => {
+      const trendingAPI = `https://api.themoviedb.org/3/trending/tv/week?api_key=dbfb4b6d3ceaae796d00053aa80dc1d9`;
       setLoading(true);
       const res = await axios.get(trendingAPI);
-      setTrendingMovies(res.data.results);
+      setTrendingTV(res.data.results);
       setLoading(false);
     };
 
-    fetchTrendingMovies();
+    fetchTrendingTV();
   }, []);
 
   // Get current movie
   const indexOfLastPost = currentPage * moviesPerPage;
   const indexOfFirstPost = indexOfLastPost - moviesPerPage;
-  const currentMovie = trendingMovies.slice(indexOfFirstPost, indexOfLastPost);
+  const currentMovie = trendingTV.slice(indexOfFirstPost, indexOfLastPost);
+
+  console.log(trendingTV);
 
   return (
     <>
@@ -34,7 +36,7 @@ export const TrendingMovies = () => {
         <Loader />
       ) : (
         <>
-          <h1 className="trendingMovieTitle">Trending Movies</h1>
+          <h1 className="tvSeriesTitle">Trending TV Series</h1>
 
           <Row gutter={[16, 16]}>
             {currentMovie.map((item) => (
@@ -42,8 +44,8 @@ export const TrendingMovies = () => {
                 <Col md={{ span: 8 }} lg={{ span: 4 }} xl={{ span: 4 }}>
                   <MovieCard
                     imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
-                    imageAlerText={item.title}
-                    movieTitle={item.title}
+                    imageAlerText={item.name}
+                    movieTitle={item.name}
                     releaseYear={item.release_date}
                     averageRating={item.vote_average}
                   />
@@ -58,7 +60,7 @@ export const TrendingMovies = () => {
                 current={currentPage}
                 defaultCurrent={1}
                 defaultPageSize={moviesPerPage}
-                total={trendingMovies.length}
+                total={trendingTV.length}
                 onChange={(page) => setCurrentPage(page)}
               />
             </Col>
