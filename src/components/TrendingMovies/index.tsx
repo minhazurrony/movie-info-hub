@@ -1,5 +1,6 @@
 import { Card, Col, Pagination, Row } from 'antd';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Loader } from '../Loader';
 import './trendingMovies.css';
@@ -48,7 +49,11 @@ export const TrendingMovies = () => {
                   />
                 }
               >
-                <Meta title={item.title} style={{ textAlign: 'center' }} />
+                <Meta
+                  title={item.title}
+                  style={{ textAlign: 'center' }}
+                  description={dayjs(item.release_date).format('YYYY')}
+                />
               </Card>
               <div className="rating-container">
                 <h3>{item.vote_average}</h3>
