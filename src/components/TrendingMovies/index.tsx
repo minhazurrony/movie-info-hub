@@ -1,11 +1,8 @@
-import { Card, Col, Pagination, Row } from 'antd';
+import { Col, Pagination, Row } from 'antd';
 import axios from 'axios';
-import dayjs from 'dayjs';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Loader } from '../Loader';
-import './trendingMovies.css';
-
-const { Meta } = Card;
+import { MovieCard } from '../MovieCard';
 
 export const TrendingMovies = () => {
   const [trendingMovies, setTrendingMovies] = useState<any[]>([]);
@@ -34,46 +31,41 @@ export const TrendingMovies = () => {
 
   return (
     <>
-      {loading && <Loader />}
-      <h1>Trending Movies</h1>
-      <Row gutter={[16, 16]}>
-        {currentMovie.map((item) => (
-          <Fragment key={item.id}>
-            <Col lg={{ span: 4 }}>
-              <Card
-                hoverable
-                cover={
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
-                    alt="movie_poster"
-                  />
-                }
-              >
-                <Meta
-                  title={item.title}
-                  style={{ textAlign: 'center' }}
-                  description={dayjs(item.release_date).format('YYYY')}
-                />
-              </Card>
-              <div className="rating-container">
-                <h3>{item.vote_average}</h3>
-              </div>
-            </Col>
-          </Fragment>
-        ))}
-      </Row>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <h1>Trending Movies</h1>
 
-      <Row>
-        <Col span={24}>
-          <Pagination
-            current={currentPage}
-            defaultCurrent={1}
-            defaultPageSize={moviesPerPage}
-            total={trendingMovies.length}
-            onChange={(page) => setCurrentPage(page)}
-          />
-        </Col>
-      </Row>
+          <Row gutter={[16, 16]}>
+            {currentMovie.map((item) => (
+              <Fragment key={item.id}>
+                <Col md={{ span: 8 }} lg={{ span: 4 }} xl={{ span: 4 }}>
+                  <MovieCard
+                    imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+                    imageAlerText={item.title}
+                    movieTitle={item.title}
+                    releaseYear={item.release_date}
+                    averageRating={item.vote_average}
+                  />
+                </Col>
+              </Fragment>
+            ))}
+          </Row>
+
+          <Row>
+            <Col span={24}>
+              <Pagination
+                current={currentPage}
+                defaultCurrent={1}
+                defaultPageSize={moviesPerPage}
+                total={trendingMovies.length}
+                onChange={(page) => setCurrentPage(page)}
+              />
+            </Col>
+          </Row>
+        </>
+      )}
     </>
   );
 };
