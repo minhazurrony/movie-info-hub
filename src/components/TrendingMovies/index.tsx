@@ -2,6 +2,7 @@ import { Card, Col, Pagination, Row } from 'antd';
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Loader } from '../Loader';
+import './trendingMovies.css';
 
 const { Meta } = Card;
 
@@ -28,6 +29,8 @@ export const TrendingMovies = () => {
   const indexOfFirstPost = indexOfLastPost - moviesPerPage;
   const currentMovie = trendingMovies.slice(indexOfFirstPost, indexOfLastPost);
 
+  console.log(trendingMovies);
+
   return (
     <>
       {loading && <Loader />}
@@ -47,6 +50,9 @@ export const TrendingMovies = () => {
               >
                 <Meta title={item.title} style={{ textAlign: 'center' }} />
               </Card>
+              <div className="rating-container">
+                <h3>{item.vote_average}</h3>
+              </div>
             </Col>
           </Fragment>
         ))}
