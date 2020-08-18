@@ -1,26 +1,30 @@
+import { Layout } from 'antd';
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { TrendingMovies } from './components/TrendingMovies';
 
-function App() {
+const { Header, Footer, Content } = Layout;
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <Layout>
+        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+          Header
+        </Header>
+        <Content
+          style={{
+            paddingLeft: '50px',
+            paddingRight: '50px',
+            marginTop: '95px',
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <TrendingMovies />
+        </Content>
+        <Footer>Footer</Footer>
+      </Layout>
+    </>
   );
-}
+};
 
 export default App;
