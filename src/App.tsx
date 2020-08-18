@@ -1,31 +1,30 @@
-import axios from 'axios';
-import React, { Fragment, useEffect, useState } from 'react';
+import { Layout } from 'antd';
+import React from 'react';
 import './App.css';
+import { TrendingMovies } from './components/TrendingMovies';
+
+const { Header, Footer, Content } = Layout;
 
 const App = () => {
-  const [trendingMovies, setTrendingMovies] = useState<any[]>([]);
-
-  useEffect(() => {
-    const trendingAPI = `https://api.themoviedb.org/3/trending/movie/week?api_key=dbfb4b6d3ceaae796d00053aa80dc1d9`;
-
-    axios
-      .get(trendingAPI)
-      .then((response) => setTrendingMovies(response.data.results));
-  }, []);
-
-  const trendingMovieList = trendingMovies.map((item) => {
-    return (
-      <Fragment key={item.id}>
-        <img
-          key={item.poster_path}
-          src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
-          alt="movie_poster"
-        />
-        <li key={item.title}>{item.title}</li>
-      </Fragment>
-    );
-  });
-  return <ul>{trendingMovieList}</ul>;
+  return (
+    <>
+      <Layout>
+        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+          Header
+        </Header>
+        <Content
+          style={{
+            paddingLeft: '50px',
+            paddingRight: '50px',
+            marginTop: '95px',
+          }}
+        >
+          <TrendingMovies />
+        </Content>
+        <Footer>Footer</Footer>
+      </Layout>
+    </>
+  );
 };
 
 export default App;
