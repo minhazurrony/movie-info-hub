@@ -23,7 +23,7 @@ export const InfoModal = ({
     <Modal
       visible={isVisible}
       onOk={handleOk}
-      closable={false}
+      closable={true}
       footer={
         <Button type="primary" onClick={handleOk}>
           Ok
