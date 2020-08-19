@@ -11,6 +11,7 @@ interface MovieCardProps {
   movieTitle: string;
   releaseYear: string;
   averageRating: string;
+  handleCardClick: () => void;
 }
 
 export const MovieCard = ({
@@ -19,10 +20,15 @@ export const MovieCard = ({
   movieTitle,
   releaseYear,
   averageRating,
+  handleCardClick,
 }: MovieCardProps) => {
   return (
     <>
-      <Card hoverable cover={<img src={imageSource} alt={imageAlerText} />}>
+      <Card
+        hoverable
+        cover={<img src={imageSource} alt={imageAlerText} />}
+        onClick={handleCardClick}
+      >
         <Meta
           title={movieTitle}
           style={{ textAlign: 'center' }}

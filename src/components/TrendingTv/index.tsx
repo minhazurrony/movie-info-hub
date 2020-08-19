@@ -1,6 +1,7 @@
 import { Col, Pagination, Row } from 'antd';
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
+import { InfoModal } from '../InfoModal';
 import { Loader } from '../Loader';
 import { MovieCard } from '../MovieCard';
 import './trendingTv.css';
@@ -10,6 +11,8 @@ export const TrendingTV = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [moviesPerPage] = useState(6);
+  const [showTvSeriesDetailModal, setShowTvSeriesDetailModal] = useState(false);
+  const [selectedTvSeries, setSelectedTvSeries] = useState('');
 
   useEffect(() => {
     const fetchTrendingTV = async () => {
@@ -27,8 +30,6 @@ export const TrendingTV = () => {
   const indexOfLastPost = currentPage * moviesPerPage;
   const indexOfFirstPost = indexOfLastPost - moviesPerPage;
   const currentMovie = trendingTV.slice(indexOfFirstPost, indexOfLastPost);
-
-  console.log(trendingTV);
 
   return (
     <>
@@ -54,6 +55,10 @@ export const TrendingTV = () => {
                     movieTitle={item.name}
                     releaseYear={item.release_date}
                     averageRating={item.vote_average}
+                    handleCardClick={() => {
+                      setSelectedTvSeries(item);
+                      setShowTvSeriesDetailModal(true);
+                    }}
                   />
                 </Col>
               </Fragment>
@@ -71,6 +76,14 @@ export const TrendingTV = () => {
               />
             </Col>
           </Row>
+
+          <InfoModal
+            isVisible={showTvSeriesDetailModal}
+            handleOk={(e) => setShowTvSeriesDetailModal(false)}
+            detailsInfo={selectedTvSeries}
+            handleClose={(e) => setShowTvSeriesDetailModal(false)}
+            isFromMovie={false}
+          />
         </>
       )}
     </>
