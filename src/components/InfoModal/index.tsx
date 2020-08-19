@@ -36,6 +36,7 @@ export const InfoModal = ({
         <img
           src={`https://image.tmdb.org/t/p/w500/${detailsInfo.poster_path}`}
           height={250}
+          alt={isFromMovie ? detailsInfo.title : detailsInfo.name}
         />
         <h2>{isFromMovie ? detailsInfo.title : detailsInfo.name}</h2>
         <p>
