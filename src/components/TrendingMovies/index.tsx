@@ -39,7 +39,13 @@ export const TrendingMovies = () => {
           <Row gutter={[16, 16]}>
             {currentMovie.map((item) => (
               <Fragment key={item.id}>
-                <Col md={{ span: 8 }} lg={{ span: 4 }} xl={{ span: 4 }}>
+                <Col
+                  xs={{ span: 12 }}
+                  sm={{ span: 12 }}
+                  md={{ span: 8 }}
+                  lg={{ span: 4 }}
+                  xl={{ span: 4 }}
+                >
                   <MovieCard
                     imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
                     imageAlerText={item.title}
