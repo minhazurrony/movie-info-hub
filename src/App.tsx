@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import { TrendingMovies } from './components/TrendingMovies';
 import { TrendingTV } from './components/TrendingTv';
+import { UpcomingMovies } from './components/UpcomingMovies';
 
 const { Header, Footer, Content } = Layout;
 
@@ -20,6 +21,7 @@ const App = () => {
             marginTop: '95px',
           }}
         >
+          <UpcomingMovies />
           <TrendingMovies />
           <TrendingTV />
         </Content>
