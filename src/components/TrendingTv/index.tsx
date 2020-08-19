@@ -1,6 +1,7 @@
 import { Col, Pagination, Row } from 'antd';
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
+import { InfoModal } from '../InfoModal';
 import { Loader } from '../Loader';
 import { MovieCard } from '../MovieCard';
 import './trendingTv.css';
@@ -10,6 +11,8 @@ export const TrendingTV = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [moviesPerPage] = useState(6);
+  const [showTvSeriesDetailModal, setShowTvSeriesDetailModal] = useState(false);
+  const [selectedTvSeries, setSelectedTvSeries] = useState('');
 
   useEffect(() => {
     const fetchTrendingTV = async () => {
@@ -28,8 +31,6 @@ export const TrendingTV = () => {
   const indexOfFirstPost = indexOfLastPost - moviesPerPage;
   const currentMovie = trendingTV.slice(indexOfFirstPost, indexOfLastPost);
 
-  console.log(trendingTV);
-
   return (
     <>
       {loading ? (
@@ -41,13 +42,23 @@ export const TrendingTV = () => {
           <Row gutter={[16, 16]}>
             {currentMovie.map((item) => (
               <Fragment key={item.id}>
-                <Col md={{ span: 8 }} lg={{ span: 4 }} xl={{ span: 4 }}>
+                <Col
+                  xs={{ span: 12 }}
+                  sm={{ span: 12 }}
+                  md={{ span: 8 }}
+                  lg={{ span: 4 }}
+                  xl={{ span: 4 }}
+                >
                   <MovieCard
                     imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
                     imageAlerText={item.name}
                     movieTitle={item.name}
                     releaseYear={item.release_date}
                     averageRating={item.vote_average}
+                    handleCardClick={() => {
+                      setSelectedTvSeries(item);
+                      setShowTvSeriesDetailModal(true);
+                    }}
                   />
                 </Col>
               </Fragment>
@@ -65,6 +76,14 @@ export const TrendingTV = () => {
               />
             </Col>
           </Row>
+
+          <InfoModal
+            isVisible={showTvSeriesDetailModal}
+            handleOk={(e) => setShowTvSeriesDetailModal(false)}
+            detailsInfo={selectedTvSeries}
+            handleClose={(e) => setShowTvSeriesDetailModal(false)}
+            isFromMovie={false}
+          />
         </>
       )}
     </>

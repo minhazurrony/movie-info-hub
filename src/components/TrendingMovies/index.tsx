@@ -1,6 +1,7 @@
 import { Col, Pagination, Row } from 'antd';
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
+import { InfoModal } from '../InfoModal';
 import { Loader } from '../Loader';
 import { MovieCard } from '../MovieCard';
 import './trendingMovies.css';
@@ -10,6 +11,8 @@ export const TrendingMovies = () => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [moviesPerPage] = useState(6);
+  const [showMovieDetailsModal, setShowMovieDetailsModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
 
   useEffect(() => {
     const fetchTrendingMovies = async () => {
@@ -24,9 +27,12 @@ export const TrendingMovies = () => {
   }, []);
 
   // Get current movie
-  const indexOfLastPost = currentPage * moviesPerPage;
-  const indexOfFirstPost = indexOfLastPost - moviesPerPage;
-  const currentMovie = trendingMovies.slice(indexOfFirstPost, indexOfLastPost);
+  const indexOfLastMovie = currentPage * moviesPerPage;
+  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
+  const currentMovie = trendingMovies.slice(
+    indexOfFirstMovie,
+    indexOfLastMovie,
+  );
 
   return (
     <>
@@ -39,13 +45,23 @@ export const TrendingMovies = () => {
           <Row gutter={[16, 16]}>
             {currentMovie.map((item) => (
               <Fragment key={item.id}>
-                <Col md={{ span: 8 }} lg={{ span: 4 }} xl={{ span: 4 }}>
+                <Col
+                  xs={{ span: 12 }}
+                  sm={{ span: 12 }}
+                  md={{ span: 8 }}
+                  lg={{ span: 4 }}
+                  xl={{ span: 4 }}
+                >
                   <MovieCard
                     imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
                     imageAlerText={item.title}
                     movieTitle={item.title}
                     releaseYear={item.release_date}
                     averageRating={item.vote_average}
+                    handleCardClick={() => {
+                      setSelectedItem(item);
+                      setShowMovieDetailsModal(true);
+                    }}
                   />
                 </Col>
               </Fragment>
@@ -63,6 +79,14 @@ export const TrendingMovies = () => {
               />
             </Col>
           </Row>
+
+          <InfoModal
+            isVisible={showMovieDetailsModal}
+            handleOk={(e) => setShowMovieDetailsModal(false)}
+            detailsInfo={selectedItem}
+            handleClose={(e) => setShowMovieDetailsModal(false)}
+            isFromMovie={true}
+          />
         </>
       )}
     </>
