@@ -1,1 +1,1 @@
-![Screenshot](movie_info_hub.png.PNG)
+![Screenshot](movie_info_hub.png)
