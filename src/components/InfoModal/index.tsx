@@ -23,7 +23,7 @@ export const InfoModal = ({
     <Modal
       visible={isVisible}
       onOk={handleOk}
-      closable={false}
+      closable={true}
       footer={
         <Button type="primary" onClick={handleOk}>
           Ok
@@ -42,10 +42,7 @@ export const InfoModal = ({
         <p>
           <b>Release Year:</b> {dayjs(detailsInfo.release_date).format('YYYY')}
         </p>
-        <p>
-          <b>Type:</b>{' '}
-          {detailsInfo.media_type === 'movie' ? 'Movie' : 'TV Series'}
-        </p>
+
         <p>
           <b>Rating:</b> {detailsInfo.vote_average}
         </p>
