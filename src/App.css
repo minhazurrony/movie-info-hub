@@ -1,1 +1,12 @@
 @import '~antd/dist/antd.css';
+
+.app-footer {
+  margin-top: 50px;
+  background-color: #001628;
+  text-align: center;
+}
+
+.app-footer p {
+  margin-bottom: 0;
+  color: white;
+}
