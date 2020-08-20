@@ -11,9 +11,9 @@ const App = () => {
   return (
     <>
       <Layout>
-        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-          Header
-        </Header>
+        <Header
+          style={{ position: 'fixed', zIndex: 1, width: '100%' }}
+        ></Header>
         <Content
           style={{
             paddingLeft: '50px',
@@ -25,7 +25,9 @@ const App = () => {
           <TrendingMovies />
           <TrendingTV />
         </Content>
-        <Footer>Footer</Footer>
+        <Footer className="app-footer">
+          <p>Build with TMDB</p>
+        </Footer>
       </Layout>
     </>
   );
