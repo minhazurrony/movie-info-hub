@@ -1,35 +1,97 @@
-import { Layout } from 'antd';
-import React from 'react';
+import { Input, Layout } from 'antd';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { Loader } from './components/Loader';
+import { SearchResults } from './components/SearchResults';
 import { TrendingMovies } from './components/TrendingMovies';
-import { TrendingTV } from './components/TrendingTv';
+import { TrendingTvSeries } from './components/TrendingTv';
 import { UpcomingMovies } from './components/UpcomingMovies';
 
 const { Header, Footer, Content } = Layout;
+const { Search } = Input;
 
 const App = () => {
+  const [loading, setLoading] = useState(false);
+  const [searchClicked, setSearchClicked] = useState(false);
+  const [upcomingMovies, setUpcomingMovies] = useState<any[]>([]);
+  const [trendingMovies, setTrendingMovies] = useState<any[]>([]);
+  const [trendingTvSeries, setTrendingTvSeries] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    const fetchUpcomingMovies = async () => {
+      const trendingAPI = `https://api.themoviedb.org/3/movie/upcoming?api_key=dbfb4b6d3ceaae796d00053aa80dc1d9&language=en-US&page=1`;
+      setLoading(true);
+      const res = await axios.get(trendingAPI);
+      setUpcomingMovies(res.data.results);
+      setLoading(false);
+    };
+
+    const fetchTrendingMovies = async () => {
+      const trendingAPI = `https://api.themoviedb.org/3/trending/movie/week?api_key=dbfb4b6d3ceaae796d00053aa80dc1d9`;
+      setLoading(true);
+      const res = await axios.get(trendingAPI);
+      setTrendingMovies(res.data.results);
+      setLoading(false);
+    };
+
+    const fetchTrendingTvSeries = async () => {
+      const trendingAPI = `https://api.themoviedb.org/3/trending/tv/week?api_key=dbfb4b6d3ceaae796d00053aa80dc1d9`;
+      setLoading(true);
+      const res = await axios.get(trendingAPI);
+      setTrendingTvSeries(res.data.results);
+      setLoading(false);
+    };
+
+    fetchUpcomingMovies();
+    fetchTrendingMovies();
+    fetchTrendingTvSeries();
+  }, []);
+
+  const fetchSearchMovies = async () => {
+    const searchAPI = `https://api.themoviedb.org/3/search/movie?api_key=dbfb4b6d3ceaae796d00053aa80dc1d9&query=${searchTerm}`;
+    setLoading(true);
+    const res = await axios.get(searchAPI);
+    setSearchResults(res.data.results);
+    setLoading(false);
+  };
+
   return (
-    <>
-      <Layout>
-        <Header
-          style={{ position: 'fixed', zIndex: 1, width: '100%' }}
-        ></Header>
-        <Content
-          style={{
-            paddingLeft: '50px',
-            paddingRight: '50px',
-            marginTop: '95px',
-          }}
-        >
-          <UpcomingMovies />
-          <TrendingMovies />
-          <TrendingTV />
-        </Content>
-        <Footer className="app-footer">
-          <p>Build with TMDB</p>
-        </Footer>
-      </Layout>
-    </>
+    <Layout>
+      <Header className="app-header">
+        <div className="header-container">
+          <img src={require('./assets/logo.png')} alt="logo" height={30} />
+          <Search
+            style={{ width: 200 }}
+            enterButton
+            placeholder="search movie"
+            onChange={(e) => setSearchTerm(e.target.value.split(' ').join('+'))}
+            onSearch={() => {
+              setSearchClicked(true);
+              fetchSearchMovies();
+            }}
+          />
+        </div>
+      </Header>
+      <Content className="main-content-container">
+        {loading ? (
+          <Loader />
+        ) : searchClicked && searchResults.length >= 0 ? (
+          <SearchResults searchResults={searchResults} />
+        ) : (
+          <>
+            <UpcomingMovies upcomingMovies={upcomingMovies} />
+            <TrendingMovies trendingMovies={trendingMovies} />
+            <TrendingTvSeries trendingTvSeries={trendingTvSeries} />
+          </>
+        )}
+      </Content>
+      <Footer className="app-footer">
+        <p>Build with TMDB api</p>
+      </Footer>
+    </Layout>
   );
 };
 

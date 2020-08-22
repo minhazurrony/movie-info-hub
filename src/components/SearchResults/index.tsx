@@ -2,32 +2,29 @@ import { Col, Pagination, Row } from 'antd';
 import React, { Fragment, useState } from 'react';
 import { InfoModal } from '../InfoModal';
 import { MovieCard } from '../MovieCard';
-import './upcomingMovies.css';
 
-interface UpcomingMovieProps {
-  upcomingMovies: Array<any>;
+interface SearchResultsProps {
+  searchResults: Array<any>;
 }
 
-export const UpcomingMovies = ({ upcomingMovies }: UpcomingMovieProps) => {
+export const SearchResults = ({ searchResults }: SearchResultsProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [moviesPerPage] = useState(6);
-  const [showMovieDetailsModal, setShowMovieDetailsModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState({});
+  const [showMovieDetailModal, setShowMovieDetailModal] = useState(false);
+  const [selectedTvSeries, setSelectedTvSeries] = useState('');
 
-  // Get current movie
-  const indexOfLastMovie = currentPage * moviesPerPage;
-  const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-  const currentMovie = upcomingMovies.slice(
-    indexOfFirstMovie,
-    indexOfLastMovie,
+  // Get current tv series
+  const indexOfLastMovies = currentPage * moviesPerPage;
+  const indexOfFirstMovies = indexOfLastMovies - moviesPerPage;
+  const currentMovies = searchResults.slice(
+    indexOfFirstMovies,
+    indexOfLastMovies,
   );
 
   return (
     <>
-      <h1 className="upcomingMovieTitle">Coming Soon</h1>
-
       <Row gutter={[16, 16]}>
-        {currentMovie.map((item) => (
+        {currentMovies.map((item) => (
           <Fragment key={item.id}>
             <Col
               xs={{ span: 12 }}
@@ -38,13 +35,13 @@ export const UpcomingMovies = ({ upcomingMovies }: UpcomingMovieProps) => {
             >
               <MovieCard
                 imageSource={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
-                imageAlerText={item.title}
-                movieTitle={item.title}
+                imageAlerText={item.name}
+                movieTitle={item.name}
                 releaseYear={item.release_date}
                 averageRating={item.vote_average}
                 handleCardClick={() => {
-                  setSelectedItem(item);
-                  setShowMovieDetailsModal(true);
+                  setSelectedTvSeries(item);
+                  setShowMovieDetailModal(true);
                 }}
               />
             </Col>
@@ -58,18 +55,18 @@ export const UpcomingMovies = ({ upcomingMovies }: UpcomingMovieProps) => {
             current={currentPage}
             defaultCurrent={1}
             defaultPageSize={moviesPerPage}
-            total={upcomingMovies.length}
+            total={searchResults.length}
             onChange={(page) => setCurrentPage(page)}
           />
         </Col>
       </Row>
 
       <InfoModal
-        isVisible={showMovieDetailsModal}
-        handleOk={(e) => setShowMovieDetailsModal(false)}
-        detailsInfo={selectedItem}
-        handleClose={(e) => setShowMovieDetailsModal(false)}
-        isFromMovie={true}
+        isVisible={showMovieDetailModal}
+        handleOk={(e) => setShowMovieDetailModal(false)}
+        detailsInfo={selectedTvSeries}
+        handleClose={(e) => setShowMovieDetailModal(false)}
+        isFromMovie={false}
       />
     </>
   );
