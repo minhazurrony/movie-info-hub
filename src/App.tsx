@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Loader } from './components/Loader';
+import { SearchResults } from './components/SearchResults';
 import { TrendingMovies } from './components/TrendingMovies';
 import { TrendingTvSeries } from './components/TrendingTv';
 import { UpcomingMovies } from './components/UpcomingMovies';
@@ -12,9 +13,12 @@ const { Search } = Input;
 
 const App = () => {
   const [loading, setLoading] = useState(false);
+  const [searchClicked, setSearchClicked] = useState(false);
   const [upcomingMovies, setUpcomingMovies] = useState<any[]>([]);
   const [trendingMovies, setTrendingMovies] = useState<any[]>([]);
   const [trendingTvSeries, setTrendingTvSeries] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchUpcomingMovies = async () => {
@@ -46,6 +50,14 @@ const App = () => {
     fetchTrendingTvSeries();
   }, []);
 
+  const fetchSearchMovies = async () => {
+    const searchAPI = `https://api.themoviedb.org/3/search/movie?api_key=dbfb4b6d3ceaae796d00053aa80dc1d9&query=${searchTerm}`;
+    setLoading(true);
+    const res = await axios.get(searchAPI);
+    setSearchResults(res.data.results);
+    setLoading(false);
+  };
+
   return (
     <Layout>
       <Header className="app-header">
@@ -55,13 +67,19 @@ const App = () => {
             style={{ width: 200 }}
             enterButton
             placeholder="search movie"
-            onSearch={(value) => console.log(value)}
+            onChange={(e) => setSearchTerm(e.target.value.split(' ').join('+'))}
+            onSearch={() => {
+              setSearchClicked(true);
+              fetchSearchMovies();
+            }}
           />
         </div>
       </Header>
       <Content className="main-content-container">
         {loading ? (
           <Loader />
+        ) : searchClicked && searchResults.length >= 0 ? (
+          <SearchResults searchResults={searchResults} />
         ) : (
           <>
             <UpcomingMovies upcomingMovies={upcomingMovies} />
