@@ -1,13 +1,17 @@
-import { Col, Pagination, Row } from 'antd';
+import { Col, PageHeader, Pagination, Row } from 'antd';
 import React, { Fragment, useState } from 'react';
 import { InfoModal } from '../InfoModal';
 import { MovieCard } from '../MovieCard';
 
 interface SearchResultsProps {
   searchResults: Array<any>;
+  handleBack: () => void;
 }
 
-export const SearchResults = ({ searchResults }: SearchResultsProps) => {
+export const SearchResults = ({
+  searchResults,
+  handleBack,
+}: SearchResultsProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [moviesPerPage] = useState(6);
   const [showMovieDetailModal, setShowMovieDetailModal] = useState(false);
@@ -23,6 +27,11 @@ export const SearchResults = ({ searchResults }: SearchResultsProps) => {
 
   return (
     <>
+      <PageHeader
+        onBack={handleBack}
+        title="Results"
+        subTitle="Showing search results"
+      />
       <Row gutter={[16, 16]}>
         {currentMovies.map((item) => (
           <Fragment key={item.id}>
@@ -57,6 +66,7 @@ export const SearchResults = ({ searchResults }: SearchResultsProps) => {
             defaultPageSize={moviesPerPage}
             total={searchResults.length}
             onChange={(page) => setCurrentPage(page)}
+            hideOnSinglePage={true}
           />
         </Col>
       </Row>

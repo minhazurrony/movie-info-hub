@@ -62,6 +62,7 @@ export const TrendingTvSeries = ({
             defaultPageSize={moviesPerPage}
             total={trendingTvSeries.length}
             onChange={(page) => setCurrentPage(page)}
+            hideOnSinglePage={true}
           />
         </Col>
       </Row>
