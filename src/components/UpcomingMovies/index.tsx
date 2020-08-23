@@ -60,6 +60,7 @@ export const UpcomingMovies = ({ upcomingMovies }: UpcomingMovieProps) => {
             defaultPageSize={moviesPerPage}
             total={upcomingMovies.length}
             onChange={(page) => setCurrentPage(page)}
+            hideOnSinglePage={true}
           />
         </Col>
       </Row>
