@@ -25,7 +25,7 @@ export const SearchResults = ({
     indexOfFirstMovies,
     indexOfLastMovies,
   );
-
+  console.log('selected movies');
   return (
     <>
       <PageHeader
