@@ -1,3 +1,4 @@
+import { CloseOutlined } from '@ant-design/icons';
 import { Input, Layout } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -17,8 +18,10 @@ const App = () => {
   const [upcomingMovies, setUpcomingMovies] = useState<any[]>([]);
   const [trendingMovies, setTrendingMovies] = useState<any[]>([]);
   const [trendingTvSeries, setTrendingTvSeries] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [formattedSearchTerm, setFormattedSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchUpcomingMovies = async () => {
@@ -51,11 +54,11 @@ const App = () => {
   }, []);
 
   const fetchSearchMovies = async () => {
-    const searchAPI = `https://api.themoviedb.org/3/search/movie?api_key=dbfb4b6d3ceaae796d00053aa80dc1d9&query=${searchTerm}`;
-    setLoading(true);
+    const searchAPI = `https://api.themoviedb.org/3/search/movie?api_key=dbfb4b6d3ceaae796d00053aa80dc1d9&query=${formattedSearchTerm}`;
+    setIsSearching(true);
     const res = await axios.get(searchAPI);
     setSearchResults(res.data.results);
-    setLoading(false);
+    setIsSearching(false);
   };
 
   return (
@@ -64,10 +67,27 @@ const App = () => {
         <div className="header-container">
           <img src={require('./assets/logo.png')} alt="logo" height={30} />
           <Search
-            style={{ width: 200 }}
+            style={{ width: 250 }}
+            loading={isSearching}
             enterButton
+            type="text"
             placeholder="search movie"
-            onChange={(e) => setSearchTerm(e.target.value.split(' ').join('+'))}
+            value={searchTerm}
+            suffix={
+              searchTerm.length > 0 ? (
+                <CloseOutlined
+                  onClick={() => {
+                    setSearchTerm('');
+                  }}
+                />
+              ) : (
+                <span />
+              )
+            }
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setFormattedSearchTerm(e.target.value.split(' ').join('+'));
+            }}
             onSearch={() => {
               setSearchClicked(true);
               fetchSearchMovies();
@@ -78,8 +98,11 @@ const App = () => {
       <Content className="main-content-container">
         {loading ? (
           <Loader />
-        ) : searchClicked && searchResults.length >= 0 ? (
-          <SearchResults searchResults={searchResults} />
+        ) : searchClicked ? (
+          <SearchResults
+            searchResults={searchResults}
+            handleBack={() => setSearchClicked(false)}
+          />
         ) : (
           <>
             <UpcomingMovies upcomingMovies={upcomingMovies} />

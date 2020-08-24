@@ -1,0 +1,13 @@
+.message-container {
+  background-color: #ff4d4f;
+  text-align: center;
+  padding: 20px 0;
+}
+.message-container h1,
+p {
+  color: white;
+}
+
+.message-container p {
+  margin-bottom: 0;
+}

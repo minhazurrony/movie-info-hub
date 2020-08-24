@@ -26,7 +26,13 @@ export const MovieCard = ({
     <>
       <Card
         hoverable
-        cover={<img src={imageSource} alt={imageAlerText} />}
+        cover={
+          <img
+            src={imageSource}
+            alt={imageAlerText}
+            style={{ minHeight: 315 }}
+          />
+        }
         onClick={handleCardClick}
       >
         <Meta

@@ -60,6 +60,7 @@ export const TrendingMovies = ({ trendingMovies }: TrendingMoviesProps) => {
             defaultPageSize={moviesPerPage}
             total={trendingMovies.length}
             onChange={(page) => setCurrentPage(page)}
+            hideOnSinglePage={true}
           />
         </Col>
       </Row>
