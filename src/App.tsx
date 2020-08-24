@@ -22,6 +22,7 @@ const App = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [formattedSearchTerm, setFormattedSearchTerm] = useState('');
+  const [currentPaginationValue, setCurrentPaginationValue] = useState(1);
 
   useEffect(() => {
     const fetchUpcomingMovies = async () => {
@@ -91,6 +92,7 @@ const App = () => {
             onSearch={() => {
               setSearchClicked(true);
               fetchSearchMovies();
+              setCurrentPaginationValue(1);
             }}
           />
         </div>
@@ -102,6 +104,10 @@ const App = () => {
           <SearchResults
             searchResults={searchResults}
             handleBack={() => setSearchClicked(false)}
+            currentPaginationValue={Number(currentPaginationValue)}
+            handlePaginationChange={(page: any) =>
+              setCurrentPaginationValue(page)
+            }
           />
         ) : (
           <>

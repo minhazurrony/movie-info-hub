@@ -7,19 +7,22 @@ import './searchResults.css';
 interface SearchResultsProps {
   searchResults: Array<any>;
   handleBack: () => void;
+  currentPaginationValue: number;
+  handlePaginationChange: (page: any) => void;
 }
 
 export const SearchResults = ({
   searchResults,
   handleBack,
+  currentPaginationValue,
+  handlePaginationChange,
 }: SearchResultsProps) => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [moviesPerPage] = useState(6);
   const [showMovieDetailModal, setShowMovieDetailModal] = useState(false);
   const [selectedTvSeries, setSelectedTvSeries] = useState('');
 
   // Get current tv series
-  const indexOfLastMovies = currentPage * moviesPerPage;
+  const indexOfLastMovies = currentPaginationValue * moviesPerPage;
   const indexOfFirstMovies = indexOfLastMovies - moviesPerPage;
   const currentMovies = searchResults.slice(
     indexOfFirstMovies,
@@ -69,11 +72,11 @@ export const SearchResults = ({
           <Row>
             <Col span={24}>
               <Pagination
-                current={currentPage}
+                current={currentPaginationValue}
                 defaultCurrent={1}
                 defaultPageSize={moviesPerPage}
                 total={searchResults.length}
-                onChange={(page) => setCurrentPage(page)}
+                onChange={(page) => handlePaginationChange(page)}
                 hideOnSinglePage={true}
               />
             </Col>

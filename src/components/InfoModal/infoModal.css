@@ -5,3 +5,6 @@
 .modal-details-container img {
   margin-bottom: 20px;
 }
+.modal-details-container p {
+  color: rgba(0, 0, 0, 0.85);
+}
