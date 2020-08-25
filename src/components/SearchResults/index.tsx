@@ -36,7 +36,7 @@ export const SearchResults = ({
         title="Results"
         subTitle="Showing search results"
       />
-      {!searchResults.length ? (
+      {searchResults.length === 0 ? (
         <div className="message-container">
           <h1>Oops!</h1>
           <p>Nothing found. Enter exact movie title please.</p>

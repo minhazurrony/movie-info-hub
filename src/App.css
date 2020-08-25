@@ -36,3 +36,10 @@
   margin-bottom: 0;
   color: white;
 }
+
+@media only screen and (max-width: 765px) {
+  .main-content-container,
+  .app-header {
+    padding: 0 10px;
+  }
+}

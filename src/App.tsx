@@ -1,5 +1,5 @@
 import { CloseOutlined } from '@ant-design/icons';
-import { Input, Layout } from 'antd';
+import { Input, Layout, message } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './App.css';
@@ -67,6 +67,7 @@ const App = () => {
       <Header className="app-header">
         <div className="header-container">
           <img src={require('./assets/logo.png')} alt="logo" height={30} />
+
           <Search
             style={{ width: 250 }}
             loading={isSearching}
@@ -90,9 +91,16 @@ const App = () => {
               setFormattedSearchTerm(e.target.value.split(' ').join('+'));
             }}
             onSearch={() => {
-              setSearchClicked(true);
-              fetchSearchMovies();
-              setCurrentPaginationValue(1);
+              if (searchTerm.length > 0) {
+                setSearchClicked(true);
+                fetchSearchMovies();
+                setCurrentPaginationValue(1);
+              } else {
+                const error = () => {
+                  message.error(`enter movie name please`);
+                };
+                error();
+              }
             }}
           />
         </div>
