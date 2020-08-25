@@ -1,7 +1,7 @@
 ## Movie Info Hub
 An interactive movie and tv series information hub where one can find contents about newly released, trending, top rated, etc movies or tv series. on another feature of this app is, you can search your targeted movie to get details information.
 
-![Screenshot](movie_info_hub.png)
+![Screenshot](movie-info-hub.png)
 
 ### live preview: https://movieinfohub.netlify.app/
 
