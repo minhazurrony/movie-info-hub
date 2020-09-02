@@ -1,4 +1,4 @@
-# Covid-19 Information
+# Movie Info Hub
 
 ### Description: 
 An interactive movie and tv series information hub where one can find contents about newly released, trending, top rated, etc movies or tv series. on another feature of this app is, you can search your targeted movie to get detailed information.
